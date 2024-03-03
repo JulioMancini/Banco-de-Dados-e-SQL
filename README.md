@@ -163,3 +163,290 @@ INSERT INTO CLIENTE VALUES('ANA','F','ANA@GLOBO.COM',85548962,'548556985','PRES 
 ```
 
 ![3](https://github.com/JulioMancini/Banco-de-Dados-e-SQL/assets/145502330/57ed7c0d-6ea7-4077-9010-b3dc52053afa)
+
+/* O COMANDO SELECT 
+selecao projecao e juncao
+*/
+
+SELECT NOW() as DATA_HORA, 'JULIO LEAO' AS ENGdados;
+
+SELECT 'JULIO LEAO';
+
+SELECT 'BANCO DE DADOS';
+
+/* ALIAS DE COLUNAS */
+
+
+SELECT NOME AS CLIENTE, SEXO, EMAIL FROM CLIENTE;
+
+SELECT NOME, SEXO, EMAIL, ENDERECO FROM CLIENTE;
+
+SELECT   EMAIL, SEXO, ENDERECO, NOME FROM CLIENTE;
+
+SELECT   EMAIL, SEXO, ENDERECO, NOME, NOW() AS DATA_HORA FROM CLIENTE;
+
+/* APENAS PARA FINS ACADEMICOS */
+
+SELECT * FROM CLIENTE;
+
+/*TABELA ERRADA - NAO DIGITE DIRETAMENTE NO BANCO */
+CREATE TABLE CLIENTE(
+	NOME VARCHAR(30),
+	SEXO CHAR(1),
+	EMAIL VARCHAR(30)
+	CPF INT(11),
+	TELEFONE VARCHAR(30),
+	ENDERECO VARCHAR(100),
+
+);
+
+SELECT * FROM CLIENTE;
+
+
+/* FILTRANDO DADOS COM WHERE E LIKE */
+
+SELECT NOME, TELEFONE FROM CLIENTE;
+
+/* FILTRANDO */
+
+SELECT NOME, SEXO FROM CLIENTE
+WHERE SEXO = 'M';
+
+SELECT NOME, ENDERECO FROM CLIENTE
+WHERE SEXO = 'F';
+
+SELECT NOME, SEXO FROM CLIENTE
+WHERE ENDERECO = 'RJ';
+
+/* UTILIZANDO O LIKE */
+
+SELECT NOME, SEXO FROM CLIENTE
+WHERE ENDERECO LIKE 'RJ';
+
+/* CARACTER CORINGA % -> QUALQUER COISA */
+
+SELECT NOME, SEXO FROM CLIENTE
+WHERE ENDERECO LIKE '%RJ';
+
+SELECT NOME, SEXO, ENDERECO FROM CLIENTE
+WHERE ENDERECO LIKE '%RJ';
+
+SELECT NOME, SEXO, ENDERECO FROM CLIENTE
+WHERE ENDERECO LIKE 'OSCAR CURY%';
+
+SELECT NOME, SEXO, ENDERECO FROM CLIENTE
+WHERE ENDERECO LIKE '%CENTRO%';
+
+* Resolvendo o exercício de negócio simples
+
+O cliente Tera Comércio de Produtos S.A, solicitou a modelagem de um banco de dados para cadastro dos seus clientes.
+A função da Unidados é a análise dos requisitos junto aos usuários para a correta construção do produto. O cliente deseja que inicialmente os scripts sejam construídos para o Banco de Dados MySQL, porém, posteriormente pode haver mudança no ambiente e consequentemente adaptação dos scripts para outros produtos de SGBD.
+O cliente não quer nenhuma informação relativa à vendas ou estoque, desejando somente as informações primárias de Clientes.
+
+O nosso cliente solicitou uma tabela para armazenar os livros que são comercializados pela empresa. A solicitação é somente para livros e não há a necessidade de realizar busca em outras tabelas. Hoje há um funcionário de vendas que tem uma tabela do Excel para guardar esses registros, mas as buscas estão ficando complexas. Decidiu-se então criar um banco de dados separado para esse funcionário.
+Após a criação da tabela, deveremos entregar algumas queries prontas para que sejam enviadas para o programador. As queries são as seguintes:
+
+1. Trazer todos os dados.
+2. Trazer o nome do livro e o nome da editora
+3. Trazer o nome do livro e a UF dos livros publicados por autores do sexo masculino.
+4. Trazer o nome do livro e o número de páginas dos livros publicados por autores do sexo feminino.
+5. Trazer os valores dos livros das editoras de São Paulo.
+6. Trazer os dados dos autores do sexo masculino que tiveram livros publicados por São Paulo ou Rio de Janeiro
+
+
+`CREATE DATABASE LIVRARIA;`
+
+`USE LIVRARIA;`
+
+```
+CREATE TABLE LIVROS(
+	LIVRO VARCHAR(100),
+	AUTOR VARCHAR(100),
+	SEXO CHAR(1),
+	PAGINAS INT(5),
+	EDITORA VARCHAR(30),
+	VALOR FLOAT(10,2),
+	UF CHAR(2),
+	ANO INT(4)
+);
+```
+
+/* VERIFICANDO OS BANCOS */
+SHOW DATABASES;
+
+/* CONEVCTANDO A UM BANCO */
+USE LIVRARIA;
+
+```
+INSERT INTO LIVROS VALUES('Cavaleiro Real','Ana Claudia','F',465,'Atlas',49.9,'RJ',2009);
+INSERT INTO LIVROS VALUES('SQL para leigos','João Nunes','M',450,'Addison',98,'SP',2018);
+INSERT INTO LIVROS VALUES('Receitas Caseiras','Celia Tavares','F',210,'Atlas',45,'RJ',2008);
+INSERT INTO LIVROS VALUES('Pessoas Efetivas','Eduardo Santos','M',390,'Beta',78,'RJ',2018);
+INSERT INTO LIVROS VALUES('Habitos Saudáveis','Eduardo Santos','M',630,'Beta',150,'RJ',2019);
+INSERT INTO LIVROS VALUES('A Casa Marrom','Hermes Macedo','M',250,'Bubba',60,'MG',2016);
+INSERT INTO LIVROS VALUES('Estacio Querido','Geraldo Francisco','M',310,'Insignia',100,'ES',2015);
+INSERT INTO LIVROS VALUES('Pra sempre amigas','Leda Silva','F',510,'Insignia',78,'ES',2011);
+INSERT INTO LIVROS VALUES('Copas Inesqueciveis','Marco Alcantara','M',200,'Larson',130,'RS',2018);
+INSERT INTO LIVROS VALUES('O poder da mente','Clara Mafra','F',120,'Continental',56,'SP',2017);
+```
+
+/*1 – Trazer todos os dados.*/
+
+`select *
+from livros;
+`
+
+/*2 – Trazer o nome do livro e o nome da editora*/
+
+`
+SELECT LIVRO, EDITORA
+FROM LIVROS;
+`
+
+
+/*3 – Trazer o nome do livro e a UF dos livros publicados por autores do sexo masculino.*/
+
+`SELECT LIVRO, UF
+FROM LIVROS
+WHERE SEXO = 'M';`
+
+SELECT AUTOR, SEXO,LIVRO, UF
+
+`FROM LIVROS
+WHERE SEXO = 'M';`
+
+/*4 - Trazer o nome do livro e o número de páginas dos livros publicados por autores do sexo feminino.*/
+
+`SELECT LIVRO, PAGINAS
+FROM LIVROS
+WHERE SEXO = 'F';`
+
+
+`SELECT AUTOR,  LIVRO, PAGINAS
+FROM LIVROS
+WHERE SEXO = 'F';`
+
+
+/*5 – Trazer os valores dos livros das editoras de São Paulo.*/
+
+`SELECT LIVRO, VALOR
+FROM LIVROS
+WHERE UF = 'SP';`
+
+
+`SELECT UF, LIVRO, VALOR
+FROM LIVROS
+WHERE UF = 'SP';`
+
+/*6 – Trazer os dados dos autores do sexo masculino que tiveram livros publicados por São Paulo ou Rio de Janeiro (Questão Desafio).*/
+
+`SELECT AUTOR, SEXO, UF
+FROM LIVROS
+WHERE SEXO = 'M'
+AND UF = 'SP'
+OR UF = 'RJ';`
+
+
+`SELECT AUTOR, SEXO, UF
+FROM LIVROS
+WHERE 
+SEXO = 'M' AND (UF = 'SP' OR UF = 'RJ');`
+
+
+`SELECT AUTOR, SEXO, UF
+FROM LIVROS
+WHERE SEXO = 'M'
+AND UF = 'SP'
+AND paginas > 100;`
+
+/* OPERADORES LÓGICOS 
+OR -> PARA QUE A SAIDA DA QUERY SEJA VERDADEIRA, BASTA QUE APENAS UMA CONDICAO SEJA VERDADEIRA.
+AND -> PARA QUE A SAIDA SEJA VERDADEIRA TODAS AS CONDICOES PRECISAM SER VERDADEIRAS.
+*/
+
+/* OR - OU */
+
+`SHOW DATABASES;`
+
+`USE PROJETO;`
+
+`SELECT * FROM CLIENTE;`
+
+`SELECT NOME, SEXO, ENDERECO FROM CLIENTE
+WHERE 
+SEXO = 'M' OR ENDERECO LIKE '%RJ';`
+
+`SELECT NOME, SEXO, ENDERECO FROM CLIENTE
+WHERE 
+SEXO = 'M' AND ENDERECO LIKE '%RJ';`
+
+`SELECT NOME, SEXO, ENDERECO  FROM CLIENTE
+WHERE
+SEXO = 'F' OR ENDERECO LIKE '%ESTACIO';`
+
+/* AND - E */
+
+`SELECT NOME, SEXO, ENDERECO  FROM CLIENTE
+WHERE 
+SEXO = 'M' AND ENDERECO LIKE '%RJ';`
+
+`SELECT NOME, SEXO, ENDERECO FROM CLIENTE
+WHERE
+SEXO = 'F' AND ENDERECO LIKE '%ESTACIO';`
+
+/* COUNT(*), GROUP BY, PERFORMANCE COM OPERADORES
+LOGICOS */
+
+/* CONTANDO OS REGISTROS DE UMA TABELA */
+
+`SELECT COUNT(*) AS "Quantidade de Registros da Tab. Cliente"
+ FROM CLIENTE;`
+
+/* OPERADOR GROUP BY */
+
+`SELECT SEXO, COUNT(*)
+FROM CLIENTE;`
+
+`SELECT * FROM CLIENTE;`
+
+`SELECT SEXO, COUNT(*) 
+FROM CLIENTE
+GROUP BY SEXO;`
+
+/* PERFORMANCE EM OPERADORES LOGICOS */
+
+/* 1 MILHAO DE REGISTROS
+
+/*PARA CONTAR
+
+`SELECT COUNT(*) FROM CLIENTE;`
+
+`SELECT SEXO, COUNT(*) FROM CLIENTE
+GROUP BY SEXO;`
+
+`SELECT CIDADE, COUNT(*) FROM CLIENTE
+GROUP BY CIDADE;`
+
+/*CONDICAO
+SEXO = F
+CIDADE = RIO DE JANEIRO
+
+/*SITUACAO - TRATANDO COM OU / OR
+
+70% MULHERES = SEXO = F
+30% MORA NO RIO DE JANEIRO
+
+`SELECT NOME, SEXO, ENDERECO
+FROM CLIENTE
+WHERE SEXO = 'F'
+OR CIDADE = 'RIO DE JANEIRO';`
+
+/*SITUACAO - TRATANDO COM E / AND
+
+70% MULHERES = SEXO = F
+30% MORA NO RIO DE JANEIRO
+
+`SELECT NOME, SEXO, ENDERECO
+FROM CLIENTE
+WHERE CIDADE = 'RIO DE JANEIRO'
+AND SEXO = 'F';`
